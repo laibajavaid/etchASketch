@@ -27,7 +27,8 @@ body {
     padding: 30px;
 }
 
-.penColour, .backgroundColour {
+.penColour,
+.backgroundColour {
     font-family: "Bradley Hand";
     font-size: 25px;
     color: black;
@@ -41,7 +42,8 @@ body {
     font-size: 22px;
 }
 
-.penColour span, .backgroundColour span  {
+.penColour span,
+.backgroundColour span {
     margin-left: 30px;
     position: absolute;
     top: 6px;
@@ -64,18 +66,19 @@ body {
 
 input[type="color"] {
     display: block;
-    background-color: rgba(0,0,0,0);
+    background-color: rgba(0, 0, 0, 0);
     border-radius: 2px;
     width: 200%;
     height: 200%;
     transform: translateX(-10px) translateY(-10px);
 }
 
+/* button transations and styling */
 button {
     display: block;
     color: black;
     font-family: "Bradley Hand";
-    background-color: rgba(0,0,0,0);
+    background-color: white;
     font-size: 23px;
     border: 1px solid black;
     border-radius: 2px;
@@ -83,6 +86,15 @@ button {
     width: 100%;
     margin-bottom: 15px;
     letter-spacing: 2px;
+}
+
+button.active {
+    background-color: black;
+    color: white;
+}
+
+button:hover {
+  transform: scale(1.05);
 }
 
 .slider {
@@ -132,23 +144,40 @@ input[type="range"]::-webkit-slider-thumb {
 
 .gridLineButton {
     margin-top: 20px;
-    background-color: black;
-    color: white;
+    /* background-color: black;
+    color: white; */
 }
 
-.grid-wrapper {
+.grid {
     display: flex;
     justify-content: center;
     align-items: center;
-    width: 660px;
-    height: 660px;
+    width: 680px;
+    height: 670px;
     background-color: white;
     border-radius: 4px;
 }
 
-.grid-container {
+.gridContent {
     display: grid;
-    height: 630px;
     width: 630px;
+    height: 620px;
     border: 1px solid black;
+}
+
+.gridItems {
+    user-select: none;
+}
+
+.topLeftBorder {
+    border-top: 1px solid grey;
+    border-left: 1px solid grey;
+}
+
+.rightBorder {
+    border-right: 1px solid grey;
+}
+
+.bottomBorder {
+    border-bottom: 1px solid grey;
 }
