@@ -45,17 +45,12 @@ function createGrid() {
 createGrid();
 
 gridContent = document.querySelectorAll('.gridItems');
-let colourGrabber = false;
 
 // pick the pen colour
 let penInk = '#000000';
 const penColour = document.querySelector('#selectColour');
 penColour.addEventListener('input', (e) => {
     penInk = e.target.value;
-    if (colourGrabber) {
-        colourGrabber = false;
-        dropper.classList.remove('gridLines');
-    }
 });
 
 // toggle button colours when clicked
@@ -152,6 +147,18 @@ clearGridBtn.addEventListener('click', function () {
         clearGridBtn.setAttribute('button.active', clearGridBtn.innerHTML);
     }
 }, false);
+
+// change grid size 
+let gridSizeSlider = document.getElementById('sliderBar');
+
+function changeRange(value) {
+    let labels = document.querySelectorAll('#rangeValue');
+    for (let i = 0; i < labels.length; i++) {
+        labels[i].textContent = value;
+    }
+    // gridSizeSlider.style.width = (value / 64) * 100 + '%';
+    gridSizeSlider.style.width = (value / 64) * 100;
+}
 
 function clickingAction() {
     // toggle grid lines 
