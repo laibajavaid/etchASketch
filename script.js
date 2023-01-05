@@ -37,8 +37,8 @@ function createGrid() {
     }
 
     // add a bottom border to the bottom most items
-    let gridContent = document.querySelectorAll('.gridItems');
-    const lastItems = Array.from(gridContent).slice(-`${initalGridSize}`);
+    let gridContents = document.querySelectorAll('.gridItems');
+    const lastItems = Array.from(gridContents).slice(-`${initalGridSize}`);
     for (let i = 0; i < lastItems.length; i++) {
         lastItems[i].setAttribute('bottomSide', 'true');
         lastItems[i].classList.toggle('bottomBorder');
@@ -47,7 +47,7 @@ function createGrid() {
 
 createGrid();
 
-gridContent = document.querySelectorAll('.gridItems');
+gridContents = document.querySelectorAll('.gridItems');
 
 // pick the pen colour
 let penInk = '#000000';
@@ -231,21 +231,21 @@ function activateClick(e) {
 }
 
 function clickingAction() {
-    gridSquares = document.querySelectorAll('.gridItems');
-    for (let i = 0; i < gridSquares.length; i++) {
-        gridSquares[i].addEventListener('mousedown', drawClick);
+    gridContents = document.querySelectorAll('.gridItems');
+    for (let i = 0; i < gridContents.length; i++) {
+        gridContents[i].addEventListener('mousedown', drawClick);
         // if mouse is over the square 
         // colour will only be changed if the mouse is pressed down 
-        gridSquares[i].addEventListener('mouseenter', activateClick);
+        gridContents[i].addEventListener('mouseenter', activateClick);
     }
 
     // change the background colour
     backgroundColourSelector.addEventListener('input', (e) => {
-        gridSquares = document.querySelectorAll('.gridItems');
+        gridContents = document.querySelectorAll('.gridItems');
         backgroundColourSetter = e.target.value;
 
-        for (let i = 0; i < gridSquares.length; i++) {
-            if (!gridSquares[i].dataset.Inked) {
+        for (let i = 0; i < gridContents.length; i++) {
+            if (!gridContents[i].dataset.Inked) {
                 gridContainer.style.backgroundColor = backgroundColourSetter;
             }
         }
@@ -255,16 +255,16 @@ function clickingAction() {
     const toggleGridLines = document.querySelector('#gridLines');
 
     toggleGridLines.addEventListener('click', () => {
-        for (i = 0; i < gridContent.length; i++) {
+        for (i = 0; i < gridContents.length; i++) {
             //toggle top and left cell borders
-            gridContent[i].classList.toggle('topLeftBorder');
+            gridContents[i].classList.toggle('topLeftBorder');
             //toggle the remaining right borders
-            if (gridContent[i].dataset.right) {
-                gridContent[i].classList.toggle('rightBorder');
+            if (gridContents[i].dataset.right) {
+                gridContents[i].classList.toggle('rightBorder');
             }
             // toggle the remaining bottom borders
-            if (gridContent[i].dataset.bottom) {
-                gridContent[i].classList.toggle('bottomBorder');
+            if (gridContents[i].dataset.bottom) {
+                gridContents[i].classList.toggle('bottomBorder');
             }
         }
     });
