@@ -3,6 +3,9 @@ let initalGridSize = 32;
 
 const gridContainer = document.querySelector('.gridContent');
 
+let backgroundColourSetter = '#ffffff';
+gridContainer.style.backgroundColor = backgroundColourSetter;
+
 // function to create the grid
 function createGrid() {
     let gridWidth = gridContainer.offsetWidth / initalGridSize;
@@ -52,6 +55,18 @@ const penColour = document.querySelector('#selectColour');
 penColour.addEventListener('input', (e) => {
     penInk = e.target.value;
 });
+
+// background colour 
+const backgroundColourSelector = document.querySelector('#backgroundSelectColour');
+
+// random colour generator for the rainbow mode
+// resource: https://code.tutsplus.com/tutorials/how-to-code-a-random-color-generator-in-javascript--cms-39861
+function randomRainbowColour() {
+    let r = Math.floor(Math.random() * 256);
+    let g = Math.floor(Math.random() * 256);
+    let b = Math.floor(Math.random() * 256);
+    return `rgb(${r}, ${g}, ${b})`;
+}
 
 // toggle button colours when clicked
 const rainbowBtn = document.getElementById('rainbowButton');
@@ -151,6 +166,7 @@ clearGridBtn.addEventListener('click', function () {
 // change grid size 
 let gridSizeSlider = document.getElementById('sliderBar');
 
+// function for the labels
 function changeRange(value) {
     let labels = document.querySelectorAll('#rangeValue');
     for (let i = 0; i < labels.length; i++) {
@@ -160,7 +176,81 @@ function changeRange(value) {
     gridSizeSlider.style.width = (value / 64) * 100;
 }
 
+// change the actual grid
+function changeGrid(value) {
+    let gridLabels = document.querySelectorAll('#rangeValue');
+    // gridSizeSlider.style.width = (value / 64) * 100 + '%';
+    gridSizeSlider.style.width = (value / 64) * 100;
+    for (let i = 0; i < gridLabels.length; i++) {
+        gridLabels[i].textContent = value;
+    }
+
+    gridSize = parseInt(value);
+    deleteGrid();
+    createGrid();
+    clickingAction();
+    reloadGrid();
+
+    // if the toggle for grid lines is off, turn it back on
+    const gridButton = document.querySelector('#gridLines');
+    if (gridButton.classList.contains('gridLineButton')) {
+        // do nothing 
+    } else {
+        gridButton.classList.toggle('gridLineButton');
+    }
+}
+
+function deleteGrid() {
+    while (gridContainer.firstChild) {
+        gridContainer.removeEventListener('mousedown', drawClick);
+        gridContainer.removeEventListener('mouseenter', activateClick);
+        gridContainer.lastChild = null;
+        gridContainer.removeChild(gridContainer.lastChild);
+    }
+}
+
+function reloadGrid() {
+    deleteGrid();
+    createGrid();
+    clickingAction();
+}
+
+// functions for the actual drawing
+function drawClick(e) {
+    e.target.style.backgroundColor = penInk;
+    e.target.setAttribute('squareInked', 'true');
+    e.target.removeAttribute('squareDone');
+}
+
+function activateClick(e) {
+    if (e.buttons > 0) {
+        e.target.style.backgroundColor = penInk;
+        e.target.setAttribute('squareInked', 'true');
+        e.target.removeAttribute('squareDone');
+    }
+}
+
 function clickingAction() {
+    gridSquares = document.querySelectorAll('.gridItems');
+    for (let i = 0; i < gridSquares.length; i++) {
+        gridSquares[i].addEventListener('mousedown', drawClick);
+        // if mouse is over the square 
+        // colour will only be changed if the mouse is pressed down 
+        gridSquares[i].addEventListener('mouseenter', activateClick);
+    }
+
+    // change the background colour
+    backgroundColourSelector.addEventListener('input', (e) => {
+        gridSquares = document.querySelectorAll('.gridItems');
+        backgroundColourSetter = e.target.value;
+
+        for (let i = 0; i < gridSquares.length; i++) {
+            if (!gridSquares[i].dataset.Inked) {
+                gridContainer.style.backgroundColor = backgroundColourSetter;
+            }
+        }
+    });
+
     // toggle grid lines 
     const toggleGridLines = document.querySelector('#gridLines');
 
@@ -179,6 +269,7 @@ function clickingAction() {
         }
     });
 
+    
 }
 
 clickingAction();
