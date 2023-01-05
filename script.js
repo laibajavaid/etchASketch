@@ -185,7 +185,7 @@ function changeGrid(value) {
         gridLabels[i].textContent = value;
     }
 
-    gridSize = parseInt(value);
+    initalGridSize = parseInt(value);
     deleteGrid();
     createGrid();
     clickingAction();
