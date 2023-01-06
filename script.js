@@ -215,6 +215,39 @@ function reloadGrid() {
     clickingAction();
 }
 
+// clear grid button functions 
+function fadeGrid(contents) {
+    contents.classList.add('fadeEffect');
+}
+
+let root = document.documentElement;
+const clearGridButton = document.querySelector('#clearGrid');
+function clearGrid() {
+    // clear the background colour upon clear
+    root.style.setProperty('--bgColour', backgroundColourSetter);
+    gridContents = document.querySelectorAll('.gridItems');
+    for (let i = 0; i < gridContents.length; i++) {
+        fadeGrid(gridContents[i]);
+    }
+
+    setTimeout(function () {
+        for (let i = 0; i < gridContents.length; i++) {
+            gridContents[i].style.backgroundColor = '';
+            gridContents[i].removeAttribute('squareInked');
+            gridContents[i].removeAttribute('squareDone');
+            gridContents[i].classList.remove('fadeEffect');
+        }
+    }, 1500);
+    gridContainer.style.backgroundColor = backgroundColourSetter;
+
+    // turn off the button after a little delay
+    setTimeout(function () {
+        clearGridBtn.classList.remove('active');
+    }, 1000);
+}
+
+clearGridButton.addEventListener('click', clearGrid);
+
 // functions for the actual drawing
 function drawClick(e) {
     e.target.style.backgroundColor = penInk;
@@ -269,7 +302,7 @@ function clickingAction() {
         }
     });
 
-    
+
 }
 
 clickingAction();
