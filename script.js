@@ -59,15 +59,6 @@ penColour.addEventListener('input', (e) => {
 // background colour 
 const backgroundColourSelector = document.querySelector('#backgroundSelectColour');
 
-// random colour generator for the rainbow mode
-// resource: https://code.tutsplus.com/tutorials/how-to-code-a-random-color-generator-in-javascript--cms-39861
-function randomRainbowColour() {
-    let r = Math.floor(Math.random() * 256);
-    let g = Math.floor(Math.random() * 256);
-    let b = Math.floor(Math.random() * 256);
-    return `rgb(${r}, ${g}, ${b})`;
-}
-
 const buttons = document.getElementsByTagName('button');
 
 for (let i = 0; i < buttons.length; i++) {
@@ -235,6 +226,56 @@ function clearGrid() {
 
 clearGridButton.addEventListener('click', clearGrid);
 
+// random colour generator for the rainbow mode
+// resource: https://code.tutsplus.com/tutorials/how-to-code-a-random-color-generator-in-javascript--cms-39861
+function randomRainbowColour() {
+    let r = Math.floor(Math.random() * 256);
+    let g = Math.floor(Math.random() * 256);
+    let b = Math.floor(Math.random() * 256);
+    return `rgb(${r}, ${g}, ${b})`;
+}
+
+// resource: https://stackoverflow.com/questions/5623838/rgb-to-hex-and-hex-to-rgb
+// convert rgb to hex
+function rgbToHex(rgb) {
+    let seperator = rgb.indexOf(',') > -1 ? ',' : ' ';
+
+    // rgb(r,g,b) --> [r,g,b]
+    rgb = rgb.substr(4).split(')')[0].split(seperator);
+
+    let r, g, b;
+    r = (+rgb[0]).toString(16),
+        g = (+rgb[1]).toString(16),
+        b = (+rgb[2]).toString(16);
+
+    if (r.length == 1) {
+        r = '0' + r;
+    }
+
+    if (g.length == 1) {
+        g = '0' + g;
+    }
+
+    if (b.length == 1) {
+        b = '0' + b;
+    }
+
+    return '#' + r + g + b;
+}
+
+// function to adjust the colours for shading and lightening
+function adjustColour(rgbToHex, rgb, colourAmount) {
+    let color = rgbToHex(rgb);
+    return (
+        '#' +
+        color
+            .replace(/^#/, '')
+            .replace(/../g, (color) =>
+                ('0' + Math.min(255, Math.max(0, parseInt(color, 16) + colourAmount)).toString(16)).substr(-2)
+            )
+    );
+}
+
 // functions for the actual drawing
 function drawClick(e) {
     if (rainbowChoice) {
@@ -245,6 +286,25 @@ function drawClick(e) {
         e.target.style.backgroundColor = '';
         e.target.removeAttribute('squareInked');
         e.target.removeAttribute('squareDone');
+    } else if (shadingChoice) {
+        // check to see if the grid square has been shaded, if not set the shade attribute to one 
+        // this will be necessary for the background colour will also be shaded
+        if (!e.target.dataset.Shade) {
+            e.target.setAttribute('squareShade', '1');
+        } else {
+            // if the grid square has been shaded, keep track of the number of times the square has been shaded
+            // increment accordingly
+            let shadeCounter = parseInt(e.target.getAttribute('squareShade'));
+            shadeCounter++;
+            e.target.setAttribute('squareShade', `${shadeCounter}`);
+        }
+
+        // if the background is transparent
+        if (e.target.style.backgroundColor == '' || e.target.style.backgroundColor == 'transperent') {
+            e.target.style.backgroundColor = backgroundColourSetter;
+        }
+
+        e.target.style.backgroundColor = adjustColour(rgbToHex, e.target.style.backgroundColor, -10);
     } else {
         e.target.style.backgroundColor = penInk;
         e.target.setAttribute('squareInked', 'true');
@@ -263,6 +323,19 @@ function activateClick(e) {
             e.target.style.backgroundColor = '';
             e.target.removeAttribute('squareInked');
             e.target.removeAttribute('squareDone');
+        } else if (shadingChoice) {
+            // check to see if the grid square has been shaded, if not set the shade attribute to one 
+            // this will be necessary for the background colour will also be shaded
+            if (!e.target.dataset.Shade) {
+                e.target.setAttribute('squareShade', '1');
+            }
+
+            // if the background is transparent
+            if (e.target.style.backgroundColor == '' || e.target.style.backgroundColor == 'transperent') {
+                e.target.style.backgroundColor = backgroundColourSetter;
+            }
+
+            e.target.style.backgroundColor = adjustColour(rgbToHex, e.target.style.backgroundColor, -10);
         } else {
             e.target.style.backgroundColor = penInk;
             e.target.setAttribute('squareInked', 'true');
