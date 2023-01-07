@@ -277,6 +277,7 @@ function adjustColour(rgbToHex, rgb, colourAmount) {
 }
 
 // functions for the actual drawing
+// this function allows for individual grid squares to be coloured
 function drawClick(e) {
     if (rainbowChoice) {
         e.target.style.backgroundColor = randomRainbowColour;
@@ -305,6 +306,23 @@ function drawClick(e) {
         }
 
         e.target.style.backgroundColor = adjustColour(rgbToHex, e.target.style.backgroundColor, -10);
+    } else if (lightenChoice) {
+        if (!e.target.dataset.Lighten) {
+            e.target.setAttribute('squareLighten', '1');
+        } else {
+            // if the grid square has been shaded, keep track of the number of times the square has been shaded
+            // decrement accordingly
+            let lightenCounter = parseInt(e.target.getAttribute('squareLighten'));
+            lightenCounter--;
+            e.target.setAttribute('squareLighten', `${lightenCounter}`);
+        }
+
+        // if the background is transparent
+        if (e.target.style.backgroundColor == '' || e.target.style.backgroundColor == 'transperent') {
+            e.target.style.backgroundColor = backgroundColourSetter;
+        }
+
+        e.target.style.backgroundColor = adjustColour(rgbToHex, e.target.style.backgroundColor, +10);
     } else {
         e.target.style.backgroundColor = penInk;
         e.target.setAttribute('squareInked', 'true');
@@ -313,6 +331,7 @@ function drawClick(e) {
 }
 
 // function to draw on the grid when the square is clicked 
+// this function allows for multiple grid squares to be coloured
 function activateClick(e) {
     if (e.buttons > 0) {
         if (rainbowChoice) {
@@ -336,6 +355,23 @@ function activateClick(e) {
             }
 
             e.target.style.backgroundColor = adjustColour(rgbToHex, e.target.style.backgroundColor, -10);
+        } else if (lightenChoice) {
+            if (!e.target.dataset.Lighten) {
+                e.target.setAttribute('squareLighten', '1');
+            } else {
+                // if the grid square has been shaded, keep track of the number of times the square has been shaded
+                // decrement accordingly
+                let lightenCounter = parseInt(e.target.getAttribute('squareLighten'));
+                lightenCounter--;
+                e.target.setAttribute('squareLighten', `${lightenCounter}`);
+            }
+
+            // if the background is transparent
+            if (e.target.style.backgroundColor == '' || e.target.style.backgroundColor == 'transperent') {
+                e.target.style.backgroundColor = backgroundColourSetter;
+            }
+
+            e.target.style.backgroundColor = adjustColour(rgbToHex, e.target.style.backgroundColor, +10);
         } else {
             e.target.style.backgroundColor = penInk;
             e.target.setAttribute('squareInked', 'true');
@@ -382,8 +418,6 @@ function clickingAction() {
             }
         }
     });
-
-
 }
 
 clickingAction();
