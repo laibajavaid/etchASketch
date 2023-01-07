@@ -68,79 +68,88 @@ function randomRainbowColour() {
     return `rgb(${r}, ${g}, ${b})`;
 }
 
+const buttons = document.getElementsByTagName('button');
+
+for (let i = 0; i < buttons.length; i++) {
+  buttons[i].addEventListener('click', () => {
+    buttons[i].classList.toggle('active');
+  });
+}
+
 // toggle button colours when clicked
-const rainbowBtn = document.getElementById('rainbowButton');
-const shadingBtn = document.getElementById('shadingButton');
-const lightenBtn = document.getElementById('lightenButton');
-const eraseBtn = document.getElementById('eraserButton');
+const rainbowBtn = document.querySelector('#rainbowButton');
+const shadingBtn = document.querySelector('#shadingButton');
+const lightenBtn = document.querySelector('#lightenButton');
+const eraseBtn = document.querySelector('#eraserButton');
 const toggleGridLineBtn = document.getElementById('gridLines');
 const clearGridBtn = document.getElementById('clearGrid');
 
-// resource: https://stackoverflow.com/questions/55445418/how-to-toggle-button-colour-when-it-is-clicked-and-change-the-colour-back-to-its
 // toggle rainbow button
-rainbowBtn.addEventListener('click', function () {
-    // remove the other buttons
+let rainbowChoice = false;
+rainbowBtn.addEventListener('click', () => {
+  if (rainbowChoice) {
+    rainbowChoice = false;
+  } else {
+    rainbowChoice = true;
+    shadingChoice = false;
     shadingBtn.classList.remove('active');
+    lightenChoice = false;
     lightenBtn.classList.remove('active');
+    eraserChoice = false;
     eraseBtn.classList.remove('active');
-
-    this.classList.toggle('active');
-
-    if (rainbowBtn.getAttribute('#rainbowButton') === rainbowBtn.innerHTML) {
-        rainbowBtn.innerHTML = rainbowBtn.getAttribute('#rainbowButton');
-    } else {
-        rainbowBtn.setAttribute('button.active', rainbowBtn.innerHTML);
-    }
-}, false);
+  }
+});
 
 // toggle shading button
-shadingBtn.addEventListener('click', function () {
-    // remove the other buttons
-    rainbowButton.classList.remove('active');
-    lightenBtn.classList.remove('active');
+let shadingChoice = false;
+shadingBtn.addEventListener('click', () => {
+  if (shadingChoice) {
+    shadingChoice = false;
+  } else {
+    shadingChoice = true;
+    rainbowChoice = false;
+    rainbowBtn.classList.remove('active');
+    lighten = false;
+    lightenButton.classList.remove('active');
+    eraserChoice = false;
     eraseBtn.classList.remove('active');
-
-    this.classList.toggle('active');
-
-    if (shadingBtn.getAttribute('#shadingButton') === shadingBtn.innerHTML) {
-        shadingBtn.innerHTML = shadingBtn.getAttribute('#shadingButton');
-    } else {
-        shadingBtn.setAttribute('button.active', shadingBtn.innerHTML);
-    }
-}, false);
+  }
+});
 
 // toggle lighten button
-lightenBtn.addEventListener('click', function () {
-    // remove the other buttons
-    rainbowButton.classList.remove('active');
+let lightenChoice = false;
+lightenBtn.addEventListener('click', () => {
+  if (lightenChoice) {
+    lightenChoice = false;
+  } else {
+    lightenChoice = true;
+    rainbowChoice = false;
+    rainbowBtn.classList.remove('active');
+    shadingChoice = false;
     shadingBtn.classList.remove('active');
+    eraserChoice = false;
     eraseBtn.classList.remove('active');
-
-    this.classList.toggle('active');
-
-    if (lightenBtn.getAttribute('#lightenButton') === lightenBtn.innerHTML) {
-        lightenBtn.innerHTML = lightenBtn.getAttribute('#lightenButton');
-    } else {
-        lightenBtn.setAttribute('button.active', lightenBtn.innerHTML);
-    }
-}, false);
+  }
+});
 
 // toggle erase button
-eraseBtn.addEventListener('click', function () {
-    // remove the other buttons
-    rainbowButton.classList.remove('active');
+let eraserChoice = false;
+eraseBtn.addEventListener('click', () => {
+  if (eraserChoice) {
+    eraserChoice = false;
+  } else {
+    eraserChoice = true;
+    rainbowChoice = false;
+    rainbowBtn.classList.remove('active');
+    shadingChoice = false;
     shadingBtn.classList.remove('active');
+    lightenChoice = false;
     lightenBtn.classList.remove('active');
+  }
 
-    this.classList.toggle('active');
+});
 
-    if (eraseBtn.getAttribute('#eraserButton') === eraseBtn.innerHTML) {
-        eraseBtn.innerHTML = eraseBtn.getAttribute('#eraserButton');
-    } else {
-        eraseBtn.setAttribute('button.active', eraseBtn.innerHTML);
-    }
-}, false);
-
+// resource: https://stackoverflow.com/questions/55445418/how-to-toggle-button-colour-when-it-is-clicked-and-change-the-colour-back-to-its
 // toggle grid line button
 toggleGridLineBtn.addEventListener('click', function () {
     this.classList.toggle('active');
@@ -250,16 +259,28 @@ clearGridButton.addEventListener('click', clearGrid);
 
 // functions for the actual drawing
 function drawClick(e) {
-    e.target.style.backgroundColor = penInk;
-    e.target.setAttribute('squareInked', 'true');
-    e.target.removeAttribute('squareDone');
+    if (rainbowChoice) {
+        e.target.style.backgroundColor = randomRainbowColour;
+        e.target.setAttribute('squareInked', 'true');
+        e.target.removeAttribute('squareDone');
+    } else {
+        e.target.style.backgroundColor = penInk;
+        e.target.setAttribute('squareInked', 'true');
+        e.target.removeAttribute('squareDone');
+    }
 }
 
 function activateClick(e) {
     if (e.buttons > 0) {
-        e.target.style.backgroundColor = penInk;
-        e.target.setAttribute('squareInked', 'true');
-        e.target.removeAttribute('squareDone');
+        if (rainbowChoice) {
+            e.target.style.backgroundColor = randomRainbowColour();
+            e.target.setAttribute('squareInked', 'true');
+            e.target.removeAttribute('squareDone');
+        } else {
+            e.target.style.backgroundColor = penInk;
+            e.target.setAttribute('squareInked', 'true');
+            e.target.removeAttribute('squareDone');
+        }
     }
 }
 
