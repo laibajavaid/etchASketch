@@ -149,29 +149,6 @@ eraseBtn.addEventListener('click', () => {
 
 });
 
-// resource: https://stackoverflow.com/questions/55445418/how-to-toggle-button-colour-when-it-is-clicked-and-change-the-colour-back-to-its
-// toggle grid line button
-toggleGridLineBtn.addEventListener('click', function () {
-    this.classList.toggle('active');
-
-    if (toggleGridLineBtn.getAttribute('#gridLines') === toggleGridLineBtn.innerHTML) {
-        toggleGridLineBtn.innerHTML = toggleGridLineBtn.getAttribute('#gridLines');
-    } else {
-        toggleGridLineBtn.setAttribute('button.active', toggleGridLineBtn.innerHTML);
-    }
-}, false);
-
-// toggle clear grid button
-clearGridBtn.addEventListener('click', function () {
-    this.classList.toggle('active');
-
-    if (clearGridBtn.getAttribute('#clearGrid') === clearGridBtn.innerHTML) {
-        clearGridBtn.innerHTML = clearGridBtn.getAttribute('#clearGrid');
-    } else {
-        clearGridBtn.setAttribute('button.active', clearGridBtn.innerHTML);
-    }
-}, false);
-
 // change grid size 
 let gridSizeSlider = document.getElementById('sliderBar');
 
@@ -229,6 +206,7 @@ function fadeGrid(contents) {
     contents.classList.add('fadeEffect');
 }
 
+// toggle clear grid button
 let root = document.documentElement;
 const clearGridButton = document.querySelector('#clearGrid');
 function clearGrid() {
