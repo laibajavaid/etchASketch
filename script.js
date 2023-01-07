@@ -71,9 +71,9 @@ function randomRainbowColour() {
 const buttons = document.getElementsByTagName('button');
 
 for (let i = 0; i < buttons.length; i++) {
-  buttons[i].addEventListener('click', () => {
-    buttons[i].classList.toggle('active');
-  });
+    buttons[i].addEventListener('click', () => {
+        buttons[i].classList.toggle('active');
+    });
 }
 
 // toggle button colours when clicked
@@ -87,65 +87,65 @@ const clearGridBtn = document.getElementById('clearGrid');
 // toggle rainbow button
 let rainbowChoice = false;
 rainbowBtn.addEventListener('click', () => {
-  if (rainbowChoice) {
-    rainbowChoice = false;
-  } else {
-    rainbowChoice = true;
-    shadingChoice = false;
-    shadingBtn.classList.remove('active');
-    lightenChoice = false;
-    lightenBtn.classList.remove('active');
-    eraserChoice = false;
-    eraseBtn.classList.remove('active');
-  }
+    if (rainbowChoice) {
+        rainbowChoice = false;
+    } else {
+        rainbowChoice = true;
+        shadingChoice = false;
+        shadingBtn.classList.remove('active');
+        lightenChoice = false;
+        lightenBtn.classList.remove('active');
+        eraserChoice = false;
+        eraseBtn.classList.remove('active');
+    }
 });
 
 // toggle shading button
 let shadingChoice = false;
 shadingBtn.addEventListener('click', () => {
-  if (shadingChoice) {
-    shadingChoice = false;
-  } else {
-    shadingChoice = true;
-    rainbowChoice = false;
-    rainbowBtn.classList.remove('active');
-    lighten = false;
-    lightenButton.classList.remove('active');
-    eraserChoice = false;
-    eraseBtn.classList.remove('active');
-  }
+    if (shadingChoice) {
+        shadingChoice = false;
+    } else {
+        shadingChoice = true;
+        rainbowChoice = false;
+        rainbowBtn.classList.remove('active');
+        lighten = false;
+        lightenButton.classList.remove('active');
+        eraserChoice = false;
+        eraseBtn.classList.remove('active');
+    }
 });
 
 // toggle lighten button
 let lightenChoice = false;
 lightenBtn.addEventListener('click', () => {
-  if (lightenChoice) {
-    lightenChoice = false;
-  } else {
-    lightenChoice = true;
-    rainbowChoice = false;
-    rainbowBtn.classList.remove('active');
-    shadingChoice = false;
-    shadingBtn.classList.remove('active');
-    eraserChoice = false;
-    eraseBtn.classList.remove('active');
-  }
+    if (lightenChoice) {
+        lightenChoice = false;
+    } else {
+        lightenChoice = true;
+        rainbowChoice = false;
+        rainbowBtn.classList.remove('active');
+        shadingChoice = false;
+        shadingBtn.classList.remove('active');
+        eraserChoice = false;
+        eraseBtn.classList.remove('active');
+    }
 });
 
 // toggle erase button
 let eraserChoice = false;
 eraseBtn.addEventListener('click', () => {
-  if (eraserChoice) {
-    eraserChoice = false;
-  } else {
-    eraserChoice = true;
-    rainbowChoice = false;
-    rainbowBtn.classList.remove('active');
-    shadingChoice = false;
-    shadingBtn.classList.remove('active');
-    lightenChoice = false;
-    lightenBtn.classList.remove('active');
-  }
+    if (eraserChoice) {
+        eraserChoice = false;
+    } else {
+        eraserChoice = true;
+        rainbowChoice = false;
+        rainbowBtn.classList.remove('active');
+        shadingChoice = false;
+        shadingBtn.classList.remove('active');
+        lightenChoice = false;
+        lightenBtn.classList.remove('active');
+    }
 
 });
 
@@ -241,6 +241,10 @@ function drawClick(e) {
         e.target.style.backgroundColor = randomRainbowColour;
         e.target.setAttribute('squareInked', 'true');
         e.target.removeAttribute('squareDone');
+    } else if (eraserChoice) {
+        e.target.style.backgroundColor = '';
+        e.target.removeAttribute('squareInked');
+        e.target.removeAttribute('squareDone');
     } else {
         e.target.style.backgroundColor = penInk;
         e.target.setAttribute('squareInked', 'true');
@@ -248,11 +252,16 @@ function drawClick(e) {
     }
 }
 
+// function to draw on the grid when the square is clicked 
 function activateClick(e) {
     if (e.buttons > 0) {
         if (rainbowChoice) {
             e.target.style.backgroundColor = randomRainbowColour();
             e.target.setAttribute('squareInked', 'true');
+            e.target.removeAttribute('squareDone');
+        } else if (eraserChoice) {
+            e.target.style.backgroundColor = '';
+            e.target.removeAttribute('squareInked');
             e.target.removeAttribute('squareDone');
         } else {
             e.target.style.backgroundColor = penInk;
